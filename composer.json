@@ -1,0 +1,24 @@
+{
+    "name": "lodev09/bootstrap-php",
+    "description": "A PHP library that prints html for bootstrap",
+    "homepage": "https://github.com/lodev09/bootstrap-php",
+    "license": "MIT",
+    "keywords": [
+        "php", "class", "bootstrap", "framework", "html",
+        "bootstrap-php", "bootstrap-php-library"
+    ],
+    "authors": [
+        {
+            "name": "Jovanni Lo",
+            "email": "lodev09@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bootstrap\\": "src/"
+        }
+    }
+}
