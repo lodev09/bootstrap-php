@@ -21,7 +21,7 @@ class ComponentName extends \Bootstrap\Component {
 ```
 
 ## In action: Button
-Create the class that will be **registered** to the `\Bootstrap\Component` class. Let's the the `Button` class
+Create the class that will be **registered** to the `\Bootstrap\Component` class. Let's the create `Button` class
 
 ```php
 namespace Bootstrap\Components;

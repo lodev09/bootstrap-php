@@ -9,11 +9,11 @@ $ composer require lodev09/bootstrap-php
 ```
 
 ## Built-in Components
-The library has built-in components that are already available for you to use. See below. See [creating custom components](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom_components.md) to learn more how to create your own component
+The library has built-in components that are already available for you to use. See [creating custom components](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom_components.md) to learn more on how to create your own component.
 - [Table](https://github.com/lodev09/bootstrap-php/tree/master/docs/table.md)
 - [Button](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom_components.md)
 
-_If you want to contribute me to add your own components, feel free to submit a PR_
+_If you want me to add your own component, feel free to contribute and submit a PR!_
 
 ## Usage
 ```php
