@@ -181,5 +181,5 @@ class Button extends \Bootstrap\Component {
 $ui = new \Bootstrap\Component();
 $button = $ui->create_button('Click me');
 $button->class('text-success');
- button->print_html();
+$button->print_html();
 ```
