@@ -1,6 +1,6 @@
 {
     "name": "lodev09/bootstrap-php",
-    "description": "A PHP library that prints html for bootstrap",
+    "description": "A highly extendable PHP library that generate and prints html for bootstrap.",
     "homepage": "https://github.com/lodev09/bootstrap-php",
     "license": "MIT",
     "keywords": [

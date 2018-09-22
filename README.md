@@ -1,7 +1,7 @@
 Bootstrap PHP
 ============================
 
-A highly extendable PHP library that prints html for [bootstrap](http://getbootstrap.com/).
+A highly extendable PHP library that generate and prints html for [bootstrap](http://getbootstrap.com/).
 
 ## Installation
 ```term
@@ -31,6 +31,20 @@ $data = [
 ];
 
 $table = $ui->create_table($data);
+$table->cell = [
+    'name' => [
+        'class' => 'text-primary',
+        'url' => '#docs',
+        // ... so much more
+    ],
+    // can also be a closure
+    'username' => function($row, $index, $value) {
+        // print_r($row)
+        return '<strong>@'.$row['username'].'</strong>';
+    }
+];
+
+// print the html
 $table->print_html();
 ```
 

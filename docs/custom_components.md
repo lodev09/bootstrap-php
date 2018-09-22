@@ -177,8 +177,18 @@ class Button extends \Bootstrap\Component {
 ```
 
 ## Usage
+
+### register
 ```php
+\Bootstrap\Component::register('button', 'Bootstrap\Components\Button');
+```
+
+### `print_html` it!
+```php
+// register the component(s) you want to use
+
 $ui = new \Bootstrap\Component();
+
 $button = $ui->create_button('Click me');
 $button->class('text-success');
 $button->print_html();
