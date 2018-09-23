@@ -8,8 +8,8 @@ $ui = new \Bootstrap\Component();
 // somewhere in your project.
 // sample data from your db
 $data = [
-	['name' => 'Jovanni Lo', 'email' => 'lodev09@gmail.com'],
-	['name' => 'foo', 'email' => 'bar@email.com']
+    ['name' => 'Jovanni Lo', 'email' => 'lodev09@gmail.com'],
+    ['name' => 'foo', 'email' => 'bar@email.com']
 ];
 
 $table = $ui->create_table($data);

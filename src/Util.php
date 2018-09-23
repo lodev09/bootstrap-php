@@ -12,7 +12,7 @@ class Util {
         return false;
     }
 
-	public static function html_escape($str_value, $nl2br = true) {
+    public static function html_escape($str_value, $nl2br = true) {
         if (is_null($str_value)) $str_value = "";
         $new_str = is_string($str_value) ? htmlentities(html_entity_decode($str_value, ENT_QUOTES)) : $str_value;
         return $nl2br ? nl2br($new_str) : $new_str;
@@ -23,15 +23,15 @@ class Util {
     }
 
     public static function to_object($array, $recursive = false) {
-	    if (!is_object($array) && !is_array($array))
-	        return $array;
+        if (!is_object($array) && !is_array($array))
+            return $array;
 
         if (!$recursive) return (object)$array;
 
-	    if (is_array($array))
-	    	return (object)array_map([__CLASS__, 'to_object'], $array);
-	    else return $array;
-	}
+        if (is_array($array))
+            return (object)array_map([__CLASS__, 'to_object'], $array);
+        else return $array;
+    }
 
     public static function to_array($object) {
         if (!is_object($object) && !is_array($object))

@@ -15,7 +15,7 @@ class Component {
         self::$_uis[$name] = $class;
     }
 
-	protected function _call($ui_member, $structure, $name, $args) {
+    protected function _call($ui_member, $structure, $name, $args) {
         if (property_exists($structure, $name)) {
             if (!$args) return $structure->{$name};
 
@@ -102,12 +102,12 @@ class Component {
         else return $execution_time.'s';
     }
 
-	public static function err($message = "UI Error notice:") {
+    public static function err($message = "UI Error notice:") {
         if (self::$debug) {
             $trace = debug_backtrace();
             trigger_error($message.' in '.$trace[0]['file'].' on line '.$trace[0]['line'], E_USER_NOTICE);
         }
-	}
+    }
 
     public static function get_progress($value, $type = '', $options = []) {
         $real_value = str_replace('%', '', $value);
@@ -300,7 +300,7 @@ class Component {
         if ($options['block']) $classes[] = 'alert-block';
 
         $heading = $options['heading'] ? '<h4 class="alert-heading">'.$options['heading'].'</h4>' : '';
-    	$result = '<div class="'.implode(' ', $classes).'">
+        $result = '<div class="'.implode(' ', $classes).'">
                         '.$closebutton_html.'
                         '.$heading.'
                         '.$message.'
@@ -308,8 +308,8 @@ class Component {
 
         if ($options['js_escape']) $result = preg_replace("/\s+/", " ", $result);
 
-    	if ($return) return $result;
-    	else echo $result;
+        if ($return) return $result;
+        else echo $result;
     }
 
     public static function print_select($items, $options = [], $return = false) {
