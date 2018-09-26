@@ -22,30 +22,30 @@ class Table extends \Bootstrap\Component {
     );
 
     private $_structure = array(
-        'cell' => array(),
-        'col' => array(),
-        'options' => array(),
-        'data' => array(),
-        'each' => array(),
+        'cell' => [],
+        'col' => [],
+        'options' => [],
+        'data' => [],
+        'each' => [],
         'id' => '',
-        'row' => array(),
-        'hidden' => array(),
-        'visible' => array(),
-        'hide' => array(),
-        'sort' => array(),
-        'class' => array()
+        'row' => [],
+        'hidden' => [],
+        'visible' => [],
+        'hide' => [],
+        'sort' => [],
+        'class' => []
     );
 
     private $_uid = '';
 
-    private $_data = array();
+    private $_data = [];
 
-    private $_cells_map = array();
-    private $_cols_map = array();
-    private $_hide_map = array();
-    private $_col_list = array();
+    private $_cells_map = [];
+    private $_cols_map = [];
+    private $_hide_map = [];
+    private $_col_list = [];
 
-    public function __construct($data, $options = array()) {
+    public function __construct($data, $options = []) {
         $this->_init_structure($data, $options);
     }
 
@@ -59,13 +59,13 @@ class Table extends \Bootstrap\Component {
         $ui = new parent();
 
         if (!$this->_structure->data) {
-            $this->_col_list = $this->_structure->options['default_col'] ? array($this->_structure->options['default_col']) : array();
+            $this->_col_list = $this->_structure->options['default_col'] ? array($this->_structure->options['default_col']) : [];
         } else {
             $this->_col_list = array_keys(is_object($data[0]) ? get_object_vars($data[0]) : $data[0]);
         }
 
         $cols = array_combine($this->_col_list, $this->_col_list);
-        $cells = array_fill_keys($this->_col_list, array());
+        $cells = array_fill_keys($this->_col_list, []);
         $hide = array_fill_keys($this->_col_list, false);
 
         $this->_cells_map = $cells;
@@ -75,7 +75,7 @@ class Table extends \Bootstrap\Component {
         $this->_structure->col = $cols;
         $this->_structure->cell = $cells;
         $this->_structure->hide = $hide;
-        $this->_structure->row = array_fill(1, count($data) + 1, array());
+        $this->_structure->row = array_fill(1, count($data) + 1, []);
     }
 
     public function rows() {
@@ -117,16 +117,16 @@ class Table extends \Bootstrap\Component {
 
         $rows = Util::get_value($structure->data, array(
             'if_array' => function($data) use ($structure, $col_names) {
-                $html_rows = array();
+                $html_rows = [];
 
                 foreach ($data as $row_index => $row_data) {
 
                     $row_prop = array(
                         'hidden' => false,
-                        'checkbox' => array(),
+                        'checkbox' => [],
                         'detail' => true,
                         'class' => '',
-                        'attr' => array(),
+                        'attr' => [],
                         'content' => true
                     );
 
@@ -155,7 +155,7 @@ class Table extends \Bootstrap\Component {
 
                     $rows_html = '';
                     foreach ($col_names as $col_name) {
-                        $cell_classes = array();
+                        $cell_classes = [];
                         $cell_attrs = '';
                         if ((isset($structure->hide[$col_name]) && $structure->hide[$col_name] === true) || in_array($col_name, $structure->hidden)) {
                             $cell_classes[] = 'd-none';
@@ -294,7 +294,7 @@ class Table extends \Bootstrap\Component {
                     // construct custom columns
 
 
-                    $row_classes = array();
+                    $row_classes = [];
                     if ($row_prop['class']) $row_classes[] = $row_prop['class'];
                     if ($row_prop['hidden'] === true) $row_classes[] = 'd-none';
 
@@ -311,7 +311,7 @@ class Table extends \Bootstrap\Component {
                         else {
                             // global checkboxes configuration
                             $checkbox_options = $structure->options['checkboxes'];
-                            $checkbox_options = array_merge(is_array($checkbox_options) ? $checkbox_options : array(), $row_prop['checkbox'] ? : array());
+                            $checkbox_options = array_merge(is_array($checkbox_options) ? $checkbox_options : [], $row_prop['checkbox'] ? : []);
 
                             $checkbox_prop = array(
                                 'name' => $structure->id.'_checkbox[]',
@@ -319,7 +319,7 @@ class Table extends \Bootstrap\Component {
                                 'checked' => false,
                                 'disabled' => false,
                                 'value' => 1,
-                                'attr' => array(),
+                                'attr' => [],
                                 'class' => ''
                             );
 
@@ -333,7 +333,7 @@ class Table extends \Bootstrap\Component {
 
                             $value = Util::parse_value($value, $row_data);
 
-                            $checkbox_attrs = array();
+                            $checkbox_attrs = [];
                             if ($checkbox_prop['checked']) $checkbox_attrs[] = 'checked';
                             if ($checkbox_prop['id']) $checkbox_attrs[] = 'id="'.$checkbox_prop['id'].'"';
                             if ($checkbox_prop['disabled']) $checkbox_attrs[] = 'disabled';
@@ -395,7 +395,7 @@ class Table extends \Bootstrap\Component {
         if ($structure->options['columns']) {
             $cols = Util::get_value($structure->col, array(
                 'if_array' => function($cols) use ($structure) {
-                    $html_col_list = array();
+                    $html_col_list = [];
 
                     foreach ($cols as $col_name => $col_value) {
 
@@ -403,7 +403,7 @@ class Table extends \Bootstrap\Component {
                         $col_value_prop = array(
                             'title' => $col_name,
                             'class' => '',
-                            'attr' => array(),
+                            'attr' => [],
                             'icon' => '',
                             'hidden' => (isset($structure->hide[$col_name]) && $structure->hide[$col_name] === true) || in_array($col_name, $structure->hidden)
                         );
@@ -411,7 +411,7 @@ class Table extends \Bootstrap\Component {
                         $new_col_value = Util::get_props($col_value_prop, $col_value, array($this, $cols), 'title');
                         $col_attrs = Util::attrs($new_col_value['attr']);
 
-                        $classes = array();
+                        $classes = [];
                         if ($new_col_value['class'])
                             $classes[] = $new_col_value['class'];
 
@@ -450,7 +450,7 @@ class Table extends \Bootstrap\Component {
             ));
         } else $cols = '';
 
-        $classes = array();
+        $classes = [];
         if ($structure->options['table']) $classes[] = 'table';
         if ($structure->options['inverse']) $classes[] = 'table-inverse';
         if ($structure->options['striped']) $classes[] = 'table-striped';
