@@ -12,6 +12,7 @@ class Table extends \Bootstrap\Component {
         'checkboxes' => false,
         'paginate' => true,
         'columns' => true,
+        'cell_class' => null,
         'table' => true,
         'inverse' => false,
         'striped' => true,
@@ -159,6 +160,10 @@ class Table extends \Bootstrap\Component {
                         $cell_attrs = '';
                         if ((isset($structure->hide[$col_name]) && $structure->hide[$col_name] === true) || in_array($col_name, $structure->hidden)) {
                             $cell_classes[] = 'd-none';
+                        }
+
+                        if ($structure->options['cell_class']) {
+                            $cell_classes[] = $structure->options['cell_class'];
                         }
 
                         if (isset($row_prop['content']) && !$row_prop['content']) {
