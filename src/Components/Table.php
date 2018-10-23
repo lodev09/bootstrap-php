@@ -467,7 +467,7 @@ class Table extends \Bootstrap\Component {
             $classes[] = is_array($structure->class) ? implode(' ', $structure->class) : $structure->class;
         }
 
-        $table_html = '<table class="'.implode(' ', $classes).'">';
+        $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'">';
         $table_html .= '<thead>';
         $table_html .= $cols;
         $table_html .= '</thead>';

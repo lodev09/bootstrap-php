@@ -279,7 +279,7 @@ class Component {
 
     public static function print_alert($message, $type = 'info', $options = [], $return = false) {
         $defaults = [
-            'closebutton' => true,
+            'dismiss' => true,
             'block' => false,
             'container' => 'div',
             'class' => [],
@@ -289,7 +289,7 @@ class Component {
         ];
 
         $options = Util::set_values($defaults, $options, 'heading');
-        $closebutton_html = $options['closebutton'] ?
+        $closebutton_html = $options['dismiss'] ?
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>' : '';
