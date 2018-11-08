@@ -469,7 +469,7 @@ class Table extends \Bootstrap\Component {
         }
 
         $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'">';
-        $table_html .= '<thead>'.$cols.'</thead>';
+        $table_html .= $structure->options['thead'] ? '<thead>'.$cols.'</thead>' : $cols;
         $table_html .= '<tbody>'.$rows.'</tbody>';
         $table_html .= '</table>';
 
