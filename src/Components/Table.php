@@ -19,7 +19,8 @@ class Table extends \Bootstrap\Component {
         'responsive' => false,
         'bordered' => true,
         'hover' => false,
-        'default_col' => 'No Data'
+        'default_col' => 'No Data',
+        'thead' => true
     );
 
     private $_structure = array(
@@ -468,12 +469,8 @@ class Table extends \Bootstrap\Component {
         }
 
         $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'">';
-        $table_html .= '<thead>';
-        $table_html .= $cols;
-        $table_html .= '</thead>';
-        $table_html .= '<tbody>';
-        $table_html .= $rows;
-        $table_html .= '</tbody>';
+        $table_html .= '<thead>'.$cols.'</thead>';
+        $table_html .= '<tbody>'.$rows.'</tbody>';
         $table_html .= '</table>';
 
         $result = $table_html;
