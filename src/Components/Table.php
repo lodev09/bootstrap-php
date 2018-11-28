@@ -502,7 +502,3 @@ class Table extends \Bootstrap\Component {
 
 
 }
-
-
-
-?>
