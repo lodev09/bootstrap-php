@@ -35,7 +35,8 @@ class Table extends \Bootstrap\Component {
         'visible' => [],
         'hide' => [],
         'sort' => [],
-        'class' => []
+        'class' => [],
+        'attr' => []
     );
 
     private $_uid = '';
@@ -468,7 +469,21 @@ class Table extends \Bootstrap\Component {
             $classes[] = is_array($structure->class) ? implode(' ', $structure->class) : $structure->class;
         }
 
-        $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'">';
+        $attrs = '';
+        if ($structure->attr) {
+            if (isset($structure->attr['class'])) {
+                $classes[] = $structure->attr['class'];
+                unset($structure->attr['class']);
+            }
+
+            if (isset($structure->attr['id']) && $structure->id) {
+                unset($structure->attr['id']);
+            }
+
+            $attrs = $structure->attr ? Util::attrs($structure->attr) : '';
+        }
+
+        $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'" '.$attrs.'>';
         if ($structure->options['thead']) {
             $table_html .= '<thead>'.$cols.'</thead>';
             $table_html .= '<tbody>'.$rows.'</tbody>';
