@@ -344,7 +344,7 @@ class Component {
                     $content = $item;
                 } else if (is_array($item)) {
                     $content = isset($item[$options['display']]) ? $item[$options['display']] : '';
-                    $value = isset($item[$options['value']]) ? $item->{$options['value']} : '';
+                    $value = isset($item[$options['value']]) ? $item[$options['value']] : '';
                 } else if (is_object($item)) {
                     $content = isset($item->{$options['display']}) ? $item->{$options['display']} : '';
                     $value = isset($item->{$options['value']}) ? $item->{$options['value']} : '';
