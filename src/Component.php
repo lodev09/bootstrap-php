@@ -407,9 +407,7 @@ class Component {
 
         if ($options['class']) $main_attrs[] = 'class="'.(is_array($options['class']) ? implode(' ', $options['class']) : $options['class']).'"';
         if ($options['attr']) {
-            foreach ($options['attr'] as $key => $value) {
-                $main_attrs[] = $key.'="'.$value.'"';
-            }
+            $main_attrs[] = Util::attrs($options['attr']);
         }
 
         if ($options['id']) $main_attrs[] = 'id="'.$options['id'].'"';
