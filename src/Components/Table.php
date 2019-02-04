@@ -13,6 +13,7 @@ class Table extends \Bootstrap\Component {
         'paginate' => true,
         'columns' => true,
         'cell_class' => null,
+        'thead_class' => null,
         'table' => true,
         'inverse' => false,
         'striped' => true,
@@ -485,7 +486,7 @@ class Table extends \Bootstrap\Component {
 
         $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'" '.$attrs.'>';
         if ($structure->options['thead']) {
-            $table_html .= '<thead>'.$cols.'</thead>';
+            $table_html .= '<thead class="'.$structure->options['thead_class'].'">'.$cols.'</thead>';
             $table_html .= '<tbody>'.$rows.'</tbody>';
         } else {
             $table_html .= '<tbody>'.$cols.$rows.'<tbody>';
