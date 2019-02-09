@@ -415,7 +415,7 @@ class Component {
 
         $result = '
             <'.$options['type'].($main_attrs ? ' '.implode(' ', $main_attrs) : '').'>
-                '.($options['default'] ? '<option value="">'.$options['default'].'</option>' : '').'
+                '.($options['default'] ? '<option value="" disabled '.(!$options['selected'] ? 'selected' : '').'>'.$options['default'].'</option>' : '').'
                 '.$items_html.'
             </'.$options['type'].'>
         ';
