@@ -386,7 +386,7 @@ class Table extends \Bootstrap\Component {
                             '<td class="center" width="20px"> '.$content.' </td>';
                     }
 
-                    $html_rows[] = '<tr'.$row_class.$attr.'>'.$row_details.$row_checkbox.$rows_html.'</tr>';
+                    $html_rows[] = '<tr '.$row_class.$attr.'>'.$row_details.$row_checkbox.$rows_html.'</tr>';
                 }
                 return implode('', $html_rows);
             },
