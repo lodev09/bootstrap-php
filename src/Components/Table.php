@@ -79,7 +79,7 @@ class Table extends \Bootstrap\Component {
         $this->_structure->col = $cols;
         $this->_structure->cell = $cells;
         $this->_structure->hide = $hide;
-        $this->_structure->row = array_fill(1, count($data) + 1, []);
+        $this->_structure->row = $data ? array_fill(1, count($data) + 1, []) : [];
     }
 
     public function rows() {
