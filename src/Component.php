@@ -279,7 +279,7 @@ class Component {
 
     public static function print_alert($message, $type = 'info', $options = [], $return = false) {
         $defaults = [
-            'dismiss' => true,
+            'dismiss' => false,
             'block' => false,
             'container' => 'div',
             'class' => [],
