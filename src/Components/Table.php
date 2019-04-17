@@ -347,16 +347,15 @@ class Table extends \Bootstrap\Component {
                             if ($checkbox_prop['disabled']) $checkbox_attrs[] = 'disabled';
                             if ($checkbox_prop['attr']) $checkbox_attrs[] = Util::attrs($checkbox_prop['attr'], $row_data);
 
-                            $checkbox_attrs[] = 'class="custom-control-input '.$checkbox_prop['class'].'"';
+                            $checkbox_attrs[] = 'class="form-check-input '.$checkbox_prop['class'].'"';
                             $checkbox_attrs[] = 'value="'.$value.'"';
                             $checkbox_attrs[] = 'name="'.$checkbox_prop['name'].'"';
 
                             $input = '<input type="checkbox" '.implode(' ', $checkbox_attrs).'>';
 
                             $checkbox_content = '
-                                <label class="custom-control custom-checkbox">
+                                <label class="form-check m-0">
                                     '.$input.'
-                                    <span class="custom-control-indicator"></span>
                                 </label>';
 
                         }
@@ -440,10 +439,9 @@ class Table extends \Bootstrap\Component {
 
                     if (isset($structure->options['checkboxes']) && ($structure->options['checkboxes'])) {
                         $checkbox_header = '
-                            <th class="center table-checkbox" style="max-width: 10px;">
-                                <label class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" data-toggle="table-checkall">
-                                  <span class="custom-control-indicator"></span>
+                            <th class="text-center" style="max-width: 10px;">
+                                <label class="form-check m-0">
+                                    <input class="form-check-input" type="checkbox" value="">
                                 </label>
                             </th>';
                     }
@@ -500,6 +498,4 @@ class Table extends \Bootstrap\Component {
         else echo $result;
 
     }
-
-
 }
