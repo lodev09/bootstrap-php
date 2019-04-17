@@ -439,7 +439,7 @@ class Table extends \Bootstrap\Component {
 
                     if (isset($structure->options['checkboxes']) && ($structure->options['checkboxes'])) {
                         $checkbox_header = '
-                            <th style="max-width: 10px;">
+                            <th style="max-width: 10px;" data-sortable="false">
                                 <label class="form-check m-0">
                                     <input class="form-check-input" type="checkbox" value="">
                                 </label>
