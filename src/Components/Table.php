@@ -382,7 +382,7 @@ class Table extends \Bootstrap\Component {
                             $content = '';
 
                         $row_details =
-                            '<td class="center" width="20px"> '.$content.' </td>';
+                            '<td width="20px"> '.$content.' </td>';
                     }
 
                     $html_rows[] = '<tr '.$row_class.$attr.'>'.$row_details.$row_checkbox.$rows_html.'</tr>';
@@ -439,7 +439,7 @@ class Table extends \Bootstrap\Component {
 
                     if (isset($structure->options['checkboxes']) && ($structure->options['checkboxes'])) {
                         $checkbox_header = '
-                            <th class="text-center" style="max-width: 10px;">
+                            <th style="max-width: 10px;">
                                 <label class="form-check m-0">
                                     <input class="form-check-input" type="checkbox" value="">
                                 </label>
@@ -448,7 +448,7 @@ class Table extends \Bootstrap\Component {
 
                     if (isset($structure->options['row_details']) && ($structure->options['row_details'])) {
                         $detail_header = '
-                            <th class="center" width="20px"></th>';
+                            <th width="20px"></th>';
                     }
 
                     return '<tr>'.$detail_header.$checkbox_header.$html_cols.'</tr>';
