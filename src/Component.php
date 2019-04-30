@@ -337,6 +337,8 @@ class Component {
         }
 
         if ($items) {
+            $has_selected = false;
+
             foreach ($items as $item) {
                 $content = '';
                 $value = '';
@@ -390,6 +392,7 @@ class Component {
                 if ($props['class']) $attrs[] = 'class="'.(is_array($props['class']) ? implode(' ', $props['class']) : $props['class']).'"';
                 if ($options['selected'] == $value) {
                     $attrs[] = 'selected';
+                    $has_selected = true;
                 }
 
                 if ($props['attr']) {
@@ -415,7 +418,7 @@ class Component {
 
         $result = '
             <'.$options['type'].($main_attrs ? ' '.implode(' ', $main_attrs) : '').'>
-                '.($options['default'] ? '<option value="" disabled '.(!$options['selected'] ? 'selected' : '').'>'.$options['default'].'</option>' : '').'
+                '.($options['default'] ? '<option value="" disabled '.(!$has_selected ? 'selected' : '').'>'.$options['default'].'</option>' : '').'
                 '.$items_html.'
             </'.$options['type'].'>
         ';
