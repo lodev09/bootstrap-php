@@ -487,7 +487,7 @@ class Table extends \Bootstrap\Component {
             $table_html .= '<thead class="'.$structure->options['thead_class'].'">'.$cols.'</thead>';
             $table_html .= '<tbody>'.$rows.'</tbody>';
         } else {
-            $table_html .= '<tbody>'.$cols.$rows.'<tbody>';
+            $table_html .= '<tbody>'.$cols.$rows.'</tbody>';
         }
 
         $table_html .= '</table>';
