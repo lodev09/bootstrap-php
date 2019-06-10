@@ -13,7 +13,7 @@ class Table extends \Bootstrap\Component {
         'paginate' => true,
         'columns' => true,
         'cell_class' => null,
-        'thead_class' => null,
+        'thead_class' => 'thead-light',
         'table' => true,
         'inverse' => false,
         'striped' => true,
