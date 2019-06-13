@@ -298,6 +298,7 @@ class Component {
         $classes[] = 'alert';
         $classes[] = 'alert-'.$type;
         if ($options['block']) $classes[] = 'alert-block';
+        if ($options['class']) $classes[] = is_array($options['class']) ? implode(' ', $options['class']) : $options['class'];
 
         $heading = $options['heading'] ? '<h4 class="alert-heading">'.$options['heading'].'</h4>' : '';
         $result = '<div class="'.implode(' ', $classes).'">
