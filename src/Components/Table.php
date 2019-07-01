@@ -10,13 +10,15 @@ class Table extends \Bootstrap\Component {
         'row_details_opened' => false,
         'row_detail_icons' => array('closed' => 'chevron-right', 'opened' => 'chevron-down'),
         'checkboxes' => false,
-        'paginate' => true,
         'columns' => true,
         'cell_class' => null,
         'thead_class' => 'thead-light',
         'table' => true,
         'inverse' => false,
         'striped' => true,
+        'light' => false,
+        'dark' => false,
+        'small' => false,
         'responsive' => false,
         'bordered' => true,
         'hover' => false,
@@ -462,7 +464,10 @@ class Table extends \Bootstrap\Component {
         if ($structure->options['striped']) $classes[] = 'table-striped';
         if ($structure->options['bordered']) $classes[] = 'table-bordered';
         if ($structure->options['hover']) $classes[] = 'table-hover';
-        if ($structure->options['responsive']) $classes[] = 'table-responsive';
+        if ($structure->options['responsive']) $classes[] = 'table-responsive'.(is_string($structure->options['responsive']) ? '-'.$structure->options['responsive'] : '');
+        if ($structure->options['light']) $classes[] = 'table-light';
+        if ($structure->options['dark']) $classes[] = 'table-dark';
+        if ($structure->options['small']) $classes[] = 'table-sm';
 
         if ($structure->class) {
             $classes[] = is_array($structure->class) ? implode(' ', $structure->class) : $structure->class;
