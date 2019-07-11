@@ -337,8 +337,9 @@ class Component {
             return false;
         }
 
+        $has_selected = false;
+
         if ($items) {
-            $has_selected = false;
 
             foreach ($items as $item) {
                 $content = '';
