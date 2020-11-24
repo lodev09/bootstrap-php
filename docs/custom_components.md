@@ -4,19 +4,17 @@ Create your own component
 ## Template
 ```php
 namespace Bootstrap\Components;
-use \Bootstrap\Util;
+use \Bootstrap\Helper;
+use \Common\Util;
 
 class ComponentName extends \Bootstrap\Component {
-    private $_structure = [];
+    private $_properties = [];
 
     // optional
     public function __construct() {}
 
     // required
-    public function __get($name) {}
-    public function __set($name, $value) {}
-    public function __call($name, $args) {}
-    public function print_html() {}
+    public function printHtml() {}
 }
 ```
 
@@ -40,88 +38,56 @@ class Button extends \Bootstrap\Component {
         'disabled' => false
     ];
 
-    private $_structure = [
-        'options' => [],
-        'content' => '',
-        'icon' => '',
-        'type' => '',
-        'container' => self::BUTTON_CONTAINER_BUTTON,
-        'size' => self::BUTTON_SIZE_MEDIUM,
-        'attr' => [],
-        'id' => '',
-        'class' => '',
-        'dropdown' => []
-    ];
-
     public function __construct($content = '', $type = 'default', $options = []) {
-        $this->_init_structure($type, $content, $options);
+        parent::__construct([
+            'options' => Util::setValues($this->_options_map, $options),
+            'content' => content,
+            'icon' => '',
+            'type' => type,
+            'container' => self::BUTTON_CONTAINER_BUTTON,
+            'size' => self::BUTTON_SIZE_MEDIUM,
+            'attr' => [],
+            'id' => '',
+            'class' => '',
+            'dropdown' => []
+        ]);
     }
 
-    private function _init_structure($type, $content, $user_options) {
-        $this->_structure = Util::to_object($this->_structure);
-        $this->_structure->type = $type;
-        $this->_structure->content = $content;
-        $this->_structure->options = Util::set_values($this->_options_map, $user_options);
+    public function printHtml($return = false) {
+        $properties = $this->_properties;
 
-    }
-
-    public function __get($name) {
-        if (isset($this->_structure->{$name})) {
-            return $this->_structure->{$name};
-        }
-        parent::err('Undefined structure property: '.$name);
-        return null;
-    }
-
-    public function __set($name, $value) {
-        if (isset($this->_structure->{$name})) {
-            $this->_structure->{$name} = $value;
-            return;
-        }
-        parent::err('Undefined structure property: '.$name);
-    }
-
-    public function __call($name, $args) {
-        return parent::_call($this, $this->_structure, $name, $args);
-    }
-
-    public function print_html($return = false) {
-
-        $that = $this;
-        $structure = $this->_structure;
-
-        $icon = Util::get_value($structure->icon, array(
-            'if_closure' => function($icon) use ($that) { return Util::run_callback($icon, array($that)); },
+        $icon = Helper::getValue($properties->icon, [
+            'if_closure' => function($icon) { return Helper::runCallback($icon, [$this]); },
             'if_array' => function($icon) {
                 parent::err('Bootstrap::Button::icon requires string.');
                 return '';
             }
-        ));
+        ]);
 
-        $container = Util::get_value($structure->container, array(
-            'if_closure' => function($container) use ($that) { return Util::run_callback($container, array($that)); },
+        $container = Helper::getValue($properties->container, [
+            'if_closure' => function($container) { return Helper::runCallback($container, [$that]); },
             'if_array' => function($container) {
                 parent::err('Bootstrap::Button::container requires string.');
                 return '';
             }
-        ));
+        ]);
 
-        $content = Util::get_value($structure->content, array(
-            'if_closure' => function($content) use ($that) { return Util::run_callback($content, array($that)); },
+        $content = Helper::getValue($properties->content, [
+            'if_closure' => function($content) { return Helper::runCallback($content, [$this]); },
             'if_array' => function($content) {
                 parent::err('Bootstrap::Button::content requires string.');
                 return '';
             }
-        ));
+        ]);
 
-        $attr = Util::get_value($structure->attr, array(
-            'if_closure' => function($attr) use ($that) {
-                $callback_return = Util::run_callback($attr, $array($that));
+        $attr = Helper::getValue($properties->attr, [
+            'if_closure' => function($attr) {
+                $callback_return = Helper::runCallback($attr, [$this]);
                 if (is_array($callback_return)) return $callback_return;
-                else return array($callback_return);
+                else return [$callback_return];
             },
             'if_array' => function($attr) {
-                $attrs = array();
+                $attrs = [];
                 foreach ($attr as $key => $value) {
                     $attrs[] = $key.'="'.$value.'"';
                 }
@@ -129,37 +95,37 @@ class Button extends \Bootstrap\Component {
                 return $attrs;
             },
             'if_other' => function($attr) {
-                return array($attr);
+                return [$attr];
             }
-        ));
+        ]);
 
-        $class = Util::get_value($structure->class, array(
-            'if_closure' => function($class) use ($that) { return Util::run_callback($class, array($that)); },
+        $class = Helper::getValue($properties->class, [
+            'if_closure' => function($class) { return Helper::runCallback($class, [$this]); },
             'if_array' => function($class) {
                 return implode(' ', $class);
             }
-        ));
+        ]);
 
-        $type = Util::get_value($structure->type, array(
+        $type = Helper::getValue($properties->type, [
             'if_array' => function($class) {
                 parent::err('Bootstrap::Button:type requires string.');
                 return self::BUTTON_TYPE_DEFAULT;
             }
-        ));
+        ]);
 
-        $classes = array();
+        $classes = [];
 
         // custom class
         if ($class) $classes[] = $class;
 
         // size
         $size_class = '';
-        if ($structure->size) {
-            $size_class = 'btn-'.$structure->size;
+        if ($properties->size) {
+            $size_class = 'btn-'.$properties->size;
             $classes[] = $size_class;
         }
         // disabled
-        $disabled = $structure->options['disabled'] ? 'disabled' : '';
+        $disabled = $properties->options['disabled'] ? 'disabled' : '';
         $classes[] = $disabled;
 
         $class_htm = $classes ? ' '.implode(' ', $classes) : '';
@@ -168,7 +134,7 @@ class Button extends \Bootstrap\Component {
         $result .= $content;
         $result .= '</'.$container.'>';
 
-        if ($structure->id) $attr[] = 'id="'.$structure->id.'"';
+        if ($properties->id) $attr[] = 'id="'.$properties->id.'"';
 
         if ($return) return $result;
         else echo $result;
@@ -178,18 +144,12 @@ class Button extends \Bootstrap\Component {
 
 ## Usage
 
-### register
+### `printHtml` it!
 ```php
-\Bootstrap\Component::register('button', 'Bootstrap\Components\Button');
-```
-
-### `print_html` it!
-```php
+use \Bootstrap\Components\Button;
 // register the component(s) you want to use
 
-$ui = new \Bootstrap\Component();
-
-$button = $ui->create_button('Click me');
+$button = new Button('Click me');
 $button->class('text-success');
-$button->print_html();
+$button->printHtml();
 ```

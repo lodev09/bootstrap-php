@@ -1,9 +1,10 @@
 <?php
 
 namespace Bootstrap\Components;
-use \Bootstrap\Util;
+use \Bootstrap\Helper;
+use \Common\Util;
 
-class Table extends \Bootstrap\Component {
+class Table extends Component {
 
     private $_options_map = array(
         'row_details' => false,
@@ -26,22 +27,6 @@ class Table extends \Bootstrap\Component {
         'thead' => true
     );
 
-    private $_structure = array(
-        'cell' => [],
-        'col' => [],
-        'options' => [],
-        'data' => [],
-        'each' => [],
-        'id' => '',
-        'row' => [],
-        'hidden' => [],
-        'visible' => [],
-        'hide' => [],
-        'sort' => [],
-        'class' => [],
-        'attr' => []
-    );
-
     private $_uid = '';
 
     private $_data = [];
@@ -52,20 +37,11 @@ class Table extends \Bootstrap\Component {
     private $_col_list = [];
 
     public function __construct($data, $options = []) {
-        $this->_init_structure($data, $options);
-    }
+        $id = Util::token();
+        $this->_uid = $id;
 
-    private function _init_structure($data, $user_options) {
-        $this->_structure = Util::to_object($this->_structure);
-        $this->_structure->data = $data;
-        $this->_structure->options = Util::set_values($this->_options_map, $user_options);
-        $uid = Util::create_id();
-        $this->_structure->id = $uid; // set the id as default id
-        $this->_uid = $uid;
-        $ui = new parent();
-
-        if (!$this->_structure->data) {
-            $this->_col_list = $this->_structure->options['default_col'] ? array($this->_structure->options['default_col']) : [];
+        if (!$data) {
+            $this->_col_list = $options['default_col'] ? array($options['default_col']) : [];
         } else {
             $this->_col_list = array_keys(is_object($data[0]) ? get_object_vars($data[0]) : $data[0]);
         }
@@ -78,51 +54,41 @@ class Table extends \Bootstrap\Component {
         $this->_cols_map = $cols;
         $this->_hide_map = $hide;
 
-        $this->_structure->col = $cols;
-        $this->_structure->cell = $cells;
-        $this->_structure->hide = $hide;
-        $this->_structure->row = $data ? array_fill(1, count($data) + 1, []) : [];
+        parent::__construct([
+            'cell' => $cells,
+            'col' => $cols,
+            'options' => Util::setValues($this->_options_map, $options),
+            'data' => $data,
+            'each' => [],
+            'id' => $id,
+            'row' => $data ? array_fill(1, count($data) + 1, []) : [],
+            'hidden' => [],
+            'visible' => [],
+            'hide' => $hide,
+            'sort' => [],
+            'class' => [],
+            'attr' => []
+        ]);
     }
 
     public function rows() {
-        return count($this->_structure->row);
+        return count($this->_properties->row);
     }
-
-    public function __get($name) {
-        if (isset($this->_structure->{$name})) {
-            return $this->_structure->{$name};
-        }
-        parent::err('Undefined structure property: '.$name);
-        return null;
-    }
-
-    public function __set($name, $value) {
-        if (isset($this->_structure->{$name})) {
-            $this->_structure->{$name} = $value;
-            return;
-        }
-        parent::err('Undefined structure property: '.$name);
-    }
-
-    public function __call($name, $args) {
-        return parent::_call($this, $this->_structure, $name, $args);
-    }
-
 
     public function is_with_details() {
-        return isset($this->_structure->options['row_details']) && $this->_structure->options['row_details'];
+        return isset($this->_properties->options['row_details']) && $this->_properties->options['row_details'];
     }
 
     public function is_with_checkboxes() {
-        return isset($this->_structure->options['checkboxes']) && $this->_structure->options['checkboxes'];
+        return isset($this->_properties->options['checkboxes']) && $this->_properties->options['checkboxes'];
     }
 
-    public function print_html($return = false) {
-        $structure = $this->_structure;
-        $col_names = array_keys($structure->col);
+    public function printHtml($return = false) {
+        $properties = $this->_properties;
+        $col_names = array_keys($properties->col);
 
-        $rows = Util::get_value($structure->data, array(
-            'if_array' => function($data) use ($structure, $col_names) {
+        $rows = Helper::getValue($properties->data, array(
+            'if_array' => function($data) use ($properties, $col_names) {
                 $html_rows = [];
 
                 foreach ($data as $row_index => $row_data) {
@@ -136,24 +102,24 @@ class Table extends \Bootstrap\Component {
                         'content' => true
                     );
 
-                    if (Util::is_closure($structure->row)) {
-                        $row_prop = Util::set_closure_defaults($row_prop, $structure->row, array($row_data, $row_index), 'class');
+                    if (Helper::isClosure($properties->row)) {
+                        $row_prop = Helper::setClosureDefaults($row_prop, $properties->row, array($row_data, $row_index), 'class');
                     } else {
-                        if (!is_int(key($structure->row))) {
-                            $row_prop = Util::get_props($row_prop, $structure->row, array($row_data, $row_index), 'class');
+                        if (!is_int(key($properties->row))) {
+                            $row_prop = Helper::getProps($row_prop, $properties->row, array($row_data, $row_index), 'class');
                         } else {
-                            if (isset($structure->each['row']) && $structure->each['row']) {
-                                $structure->row[$row_index + 1] = Util::set_closure_defaults($row_prop, $structure->each['row'], array($row_data, $row_index), 'class');
+                            if (isset($properties->each['row']) && $properties->each['row']) {
+                                $properties->row[$row_index + 1] = Helper::setClosureDefaults($row_prop, $properties->each['row'], array($row_data, $row_index), 'class');
                             }
 
-                            if (isset($structure->row[$row_index + 1])) {
-                                $row_prop_value = $structure->row[$row_index + 1];
+                            if (isset($properties->row[$row_index + 1])) {
+                                $row_prop_value = $properties->row[$row_index + 1];
                                 if ($row_prop_value === false) {
                                     $row_prop['hidden'] = true;
                                 } else if ($row_prop_value === '') {
                                     $row_prop['content'] = '';
                                 } else {
-                                    $row_prop = Util::get_props($row_prop, $row_prop_value, array($row_data, $row_index), 'class');
+                                    $row_prop = Helper::getProps($row_prop, $row_prop_value, array($row_data, $row_index), 'class');
                                 }
                             }
                         }
@@ -163,12 +129,12 @@ class Table extends \Bootstrap\Component {
                     foreach ($col_names as $col_name) {
                         $cell_classes = [];
                         $cell_attrs = '';
-                        if ((isset($structure->hide[$col_name]) && $structure->hide[$col_name] === true) || in_array($col_name, $structure->hidden)) {
+                        if ((isset($properties->hide[$col_name]) && $properties->hide[$col_name] === true) || in_array($col_name, $properties->hidden)) {
                             $cell_classes[] = 'd-none';
                         }
 
-                        if ($structure->options['cell_class']) {
-                            $cell_classes[] = $structure->options['cell_class'];
+                        if ($properties->options['cell_class']) {
+                            $cell_classes[] = $properties->options['cell_class'];
                         }
 
                         if (isset($row_prop['content']) && !$row_prop['content']) {
@@ -186,11 +152,11 @@ class Table extends \Bootstrap\Component {
 
                         $cell_html = $cell_value;
 
-                        if (isset($structure->cell[$col_name]) && $structure->cell[$col_name]) {
-                            $cell_prop = $structure->cell[$col_name];
-                            $cell_html = Util::get_value($cell_prop, array(
+                        if (isset($properties->cell[$col_name]) && $properties->cell[$col_name]) {
+                            $cell_prop = $properties->cell[$col_name];
+                            $cell_html = Helper::getValue($cell_prop, array(
                                 'if_closure' => function($prop) use ($row_data, $row_index, $cell_value) {
-                                    return Util::parse_value(Util::run_callback($prop, array($row_data, $cell_value, $row_index)), $row_data);
+                                    return Helper::parseValue(Helper::runCallback($prop, array($row_data, $cell_value, $row_index)), $row_data);
                                 },
                                 'if_array' => function($cell_prop) use ($row_data, $row_index, $cell_value, &$cell_classes, &$cell_attrs) {
                                     //icon, content, color, url[href, title, tooltip, attr]
@@ -198,15 +164,15 @@ class Table extends \Bootstrap\Component {
 
                                     //content
                                     if (isset($cell_prop['content'])) {
-                                        $cell_html = Util::get_value($cell_prop['content'], array(
+                                        $cell_html = Helper::getValue($cell_prop['content'], array(
                                             'if_closure' => function($content) use ($row_data, $row_index, $cell_value) {
-                                                $content_value = Util::parse_value(Util::run_callback($content, array($row_data, $cell_value, $row_index)), $row_data);
+                                                $content_value = Helper::parseValue(Helper::runCallback($content, array($row_data, $cell_value, $row_index)), $row_data);
 
                                                 return $content_value;
 
                                             },
                                             'if_other' => function($content) use ($row_data, $cell_html) {
-                                                $cell_html = Util::parse_value($content, $row_data);
+                                                $cell_html = Helper::parseValue($content, $row_data);
                                                 return $cell_html;
                                             }
                                         ));
@@ -221,23 +187,23 @@ class Table extends \Bootstrap\Component {
                                             'attr' => ''
                                         );
 
-                                        $map_url_prop = Util::get_value($cell_prop['url'], array(
+                                        $map_url_prop = Helper::getValue($cell_prop['url'], array(
                                             'if_closure' => function($prop) use ($row_data, $row_index, $cell_value, $map_url_prop) {
-                                                $url = Util::run_callback($prop, array($row_data, $cell_value, $row_index));
+                                                $url = Helper::runCallback($prop, array($row_data, $cell_value, $row_index));
                                                 $map_url_prop['href'] = $url;
 
                                                 return $map_url_prop;
                                             },
                                             'if_array' => function($url_prop) use ($row_data, $cell_html, $map_url_prop) {
                                                 $map_url_prop['target'] = isset($url_prop['target']) ? $url_prop['target'] : '_self';
-                                                $map_url_prop['href'] = isset($url_prop['href']) ? Util::parse_value($url_prop['href'], $row_data, true) : '#';
+                                                $map_url_prop['href'] = isset($url_prop['href']) ? Helper::parseValue($url_prop['href'], $row_data, true) : '#';
                                                 $map_url_prop['attr'] = isset($url_prop['attr']) && $url_prop['attr'] ? $url_prop['attr'] : '';
-                                                $map_url_prop['title'] = isset($url_prop['title']) ? Util::parse_value($url_prop['title'], $row_data, true) : '';
+                                                $map_url_prop['title'] = isset($url_prop['title']) ? Helper::parseValue($url_prop['title'], $row_data, true) : '';
                                                 return $map_url_prop;
 
                                             },
                                             'if_other' => function($url_prop) use ($row_data, $cell_html, $map_url_prop) {
-                                                $map_url_prop['href'] = Util::parse_value($url_prop, Util::to_array($row_data), true);
+                                                $map_url_prop['href'] = Helper::parseValue($url_prop, Util::toArray($row_data), true);
                                                 return $map_url_prop;
                                             }
                                         ));
@@ -247,9 +213,9 @@ class Table extends \Bootstrap\Component {
 
                                     //icon
                                     if (isset($cell_prop['icon'])) {
-                                        $cell_html = Util::get_value($cell_prop['icon'], array(
+                                        $cell_html = Helper::getValue($cell_prop['icon'], array(
                                             'if_closure' => function($icon) use ($row_data, $row_index, $cell_value, $cell_html) {
-                                                $icon_value = Util::run_callback($prop, array($row_data, $cell_value, $row_index));
+                                                $icon_value = Helper::runCallback($prop, array($row_data, $cell_value, $row_index));
                                                 return '<i class="'.parent::$icon_source.' '.$icon_value.'"></i> '.$cell_html;
                                             },
                                             'if_other' => function($icon) use ($cell_html) {
@@ -260,9 +226,9 @@ class Table extends \Bootstrap\Component {
 
                                     //color
                                     if (isset($cell_prop['color'])) {
-                                        $cell_html = Util::get_value($cell_prop['color'], array(
+                                        $cell_html = Helper::getValue($cell_prop['color'], array(
                                             'if_closure' => function($color) use ($row_data, $row_index, $cell_value, $cell_html) {
-                                                $color_value = Util::run_callback($color, array($row_data, $cell_value, $row_index));
+                                                $color_value = Helper::runCallback($color, array($row_data, $cell_value, $row_index));
                                                 return '<span class="'.$color_value.'">'.$cell_html.'</span>';
                                             },
                                             'if_other' => function($color) use ($cell_html) {
@@ -279,12 +245,12 @@ class Table extends \Bootstrap\Component {
                                     }
 
                                     if (isset($cell_prop['attr'])) {
-                                        $cell_attrs = Util::attrs($cell_prop['attr'], $row_data);
+                                        $cell_attrs = Helper::attrs($cell_prop['attr'], $row_data);
                                     }
 
                                     //callback
-                                    if (isset($cell_prop['callback']) && Util::is_closure($cell_prop['callback'])) {
-                                        $new_cell_html = Util::run_callback($cell_prop['callback'], array($row_data, $cell_html, $row_index));
+                                    if (isset($cell_prop['callback']) && Helper::isClosure($cell_prop['callback'])) {
+                                        $new_cell_html = Helper::runCallback($cell_prop['callback'], array($row_data, $cell_html, $row_index));
                                         if (trim($new_cell_html) != '') {
                                             $cell_html = $new_cell_html;
                                         }
@@ -293,7 +259,7 @@ class Table extends \Bootstrap\Component {
                                     return $cell_html;
                                 },
                                 'if_other' => function($cell_prop) use ($row_data) {
-                                    return Util::parse_value($cell_prop, $row_data);
+                                    return Helper::parseValue($cell_prop, $row_data);
                                 }
                             ));
                         }
@@ -302,29 +268,27 @@ class Table extends \Bootstrap\Component {
                     }
 
                     // construct custom columns
-
-
                     $row_classes = [];
                     if ($row_prop['class']) $row_classes[] = $row_prop['class'];
                     if ($row_prop['hidden'] === true) $row_classes[] = 'd-none';
 
-                    $attr = Util::attrs($row_prop['attr'], $row_data);
+                    $attr = Helper::attrs($row_prop['attr'], $row_data);
                     $row_class = $row_classes ? ' class="'.implode(' ', $row_classes).'"' : '';
 
                     $row_checkbox = '';
                     $row_details = '';
 
-                    if (isset($structure->options['checkboxes']) && $structure->options['checkboxes']) {
+                    if (isset($properties->options['checkboxes']) && $properties->options['checkboxes']) {
 
                         if ($row_prop['checkbox'] === false)
                             $checkbox_content = '';
                         else {
                             // global checkboxes configuration
-                            $checkbox_options = $structure->options['checkboxes'];
+                            $checkbox_options = $properties->options['checkboxes'];
                             $checkbox_options = array_merge(is_array($checkbox_options) ? $checkbox_options : [], $row_prop['checkbox'] ? : []);
 
                             $checkbox_prop = array(
-                                'name' => $structure->id.'_checkbox[]',
+                                'name' => $properties->id.'_checkbox[]',
                                 'id' => '',
                                 'checked' => false,
                                 'disabled' => false,
@@ -333,21 +297,21 @@ class Table extends \Bootstrap\Component {
                                 'class' => ''
                             );
 
-                            $checkbox_prop = Util::get_props($checkbox_prop, $checkbox_options, array($this, $row_data, $row_index), 'name');
+                            $checkbox_prop = Helper::getProps($checkbox_prop, $checkbox_options, array($this, $row_data, $row_index), 'name');
 
                             $value = '';
 
-                            if (Util::is_closure($checkbox_prop['value']))
-                                $value = Util::run_callback($checkbox_prop['value'], array($row_data));
+                            if (Helper::isClosure($checkbox_prop['value']))
+                                $value = Helper::runCallback($checkbox_prop['value'], array($row_data));
                             else $value = $checkbox_prop['value'];
 
-                            $value = Util::parse_value($value, $row_data);
+                            $value = Helper::parseValue($value, $row_data);
 
                             $checkbox_attrs = [];
                             if ($checkbox_prop['checked']) $checkbox_attrs[] = 'checked';
                             if ($checkbox_prop['id']) $checkbox_attrs[] = 'id="'.$checkbox_prop['id'].'"';
                             if ($checkbox_prop['disabled']) $checkbox_attrs[] = 'disabled';
-                            if ($checkbox_prop['attr']) $checkbox_attrs[] = Util::attrs($checkbox_prop['attr'], $row_data);
+                            if ($checkbox_prop['attr']) $checkbox_attrs[] = Helper::attrs($checkbox_prop['attr'], $row_data);
 
                             $checkbox_attrs[] = 'class="form-check-input '.$checkbox_prop['class'].'"';
                             $checkbox_attrs[] = 'value="'.$value.'"';
@@ -365,8 +329,8 @@ class Table extends \Bootstrap\Component {
                         $row_checkbox = '<td style="max-width: 10px;"> '.$checkbox_content.' </td>';
                     }
 
-                    if (isset($structure->options['row_details']) && $structure->options['row_details']) {
-                        $option = $structure->options['row_details'];
+                    if (isset($properties->options['row_details']) && $properties->options['row_details']) {
+                        $option = $properties->options['row_details'];
 
                         $detail_prop = array(
                             'id' => '',
@@ -374,7 +338,7 @@ class Table extends \Bootstrap\Component {
                             'title' => 'Show Details'
                         );
 
-                        $new_detail_prop = Util::get_props($detail_prop, $option, array($this, $row_data, $row_index), 'icon');
+                        $new_detail_prop = Helper::getProps($detail_prop, $option, array($this, $row_data, $row_index), 'icon');
                         $id = $new_detail_prop['id'] ? 'id="'.$new_detail_prop['id'].'"' : '';
 
                         $content = '<a href="#" '.$id.'>
@@ -401,9 +365,9 @@ class Table extends \Bootstrap\Component {
             }
         ));
 
-        if ($structure->options['columns']) {
-            $cols = Util::get_value($structure->col, array(
-                'if_array' => function($cols) use ($structure) {
+        if ($properties->options['columns']) {
+            $cols = Helper::getValue($properties->col, array(
+                'if_array' => function($cols) use ($properties) {
                     $html_col_list = [];
 
                     foreach ($cols as $col_name => $col_value) {
@@ -414,11 +378,11 @@ class Table extends \Bootstrap\Component {
                             'class' => '',
                             'attr' => [],
                             'icon' => '',
-                            'hidden' => (isset($structure->hide[$col_name]) && $structure->hide[$col_name] === true) || in_array($col_name, $structure->hidden)
+                            'hidden' => (isset($properties->hide[$col_name]) && $properties->hide[$col_name] === true) || in_array($col_name, $properties->hidden)
                         );
 
-                        $new_col_value = Util::get_props($col_value_prop, $col_value, array($this, $cols), 'title');
-                        $col_attrs = Util::attrs($new_col_value['attr']);
+                        $new_col_value = Helper::getProps($col_value_prop, $col_value, array($this, $cols), 'title');
+                        $col_attrs = Helper::attrs($new_col_value['attr']);
 
                         $classes = [];
                         if ($new_col_value['class'])
@@ -439,7 +403,7 @@ class Table extends \Bootstrap\Component {
                     $checkbox_header = '';
                     $detail_header = '';
 
-                    if (isset($structure->options['checkboxes']) && ($structure->options['checkboxes'])) {
+                    if (isset($properties->options['checkboxes']) && ($properties->options['checkboxes'])) {
                         $checkbox_header = '
                             <th style="max-width: 10px;" data-sortable="false">
                                 <label class="form-check m-0">
@@ -448,7 +412,7 @@ class Table extends \Bootstrap\Component {
                             </th>';
                     }
 
-                    if (isset($structure->options['row_details']) && ($structure->options['row_details'])) {
+                    if (isset($properties->options['row_details']) && ($properties->options['row_details'])) {
                         $detail_header = '
                             <th width="20px"></th>';
                     }
@@ -459,37 +423,37 @@ class Table extends \Bootstrap\Component {
         } else $cols = '';
 
         $classes = [];
-        if ($structure->options['table']) $classes[] = 'table';
-        if ($structure->options['inverse']) $classes[] = 'table-inverse';
-        if ($structure->options['striped']) $classes[] = 'table-striped';
-        if ($structure->options['bordered']) $classes[] = 'table-bordered';
-        if ($structure->options['hover']) $classes[] = 'table-hover';
-        if ($structure->options['responsive']) $classes[] = 'table-responsive'.(is_string($structure->options['responsive']) ? '-'.$structure->options['responsive'] : '');
-        if ($structure->options['light']) $classes[] = 'table-light';
-        if ($structure->options['dark']) $classes[] = 'table-dark';
-        if ($structure->options['small']) $classes[] = 'table-sm';
+        if ($properties->options['table']) $classes[] = 'table';
+        if ($properties->options['inverse']) $classes[] = 'table-inverse';
+        if ($properties->options['striped']) $classes[] = 'table-striped';
+        if ($properties->options['bordered']) $classes[] = 'table-bordered';
+        if ($properties->options['hover']) $classes[] = 'table-hover';
+        if ($properties->options['responsive']) $classes[] = 'table-responsive'.(is_string($properties->options['responsive']) ? '-'.$properties->options['responsive'] : '');
+        if ($properties->options['light']) $classes[] = 'table-light';
+        if ($properties->options['dark']) $classes[] = 'table-dark';
+        if ($properties->options['small']) $classes[] = 'table-sm';
 
-        if ($structure->class) {
-            $classes[] = is_array($structure->class) ? implode(' ', $structure->class) : $structure->class;
+        if ($properties->class) {
+            $classes[] = is_array($properties->class) ? implode(' ', $properties->class) : $properties->class;
         }
 
         $attrs = '';
-        if ($structure->attr) {
-            if (isset($structure->attr['class'])) {
-                $classes[] = $structure->attr['class'];
-                unset($structure->attr['class']);
+        if ($properties->attr) {
+            if (isset($properties->attr['class'])) {
+                $classes[] = $properties->attr['class'];
+                unset($properties->attr['class']);
             }
 
-            if (isset($structure->attr['id']) && $structure->id) {
-                unset($structure->attr['id']);
+            if (isset($properties->attr['id']) && $properties->id) {
+                unset($properties->attr['id']);
             }
 
-            $attrs = $structure->attr ? Util::attrs($structure->attr) : '';
+            $attrs = $properties->attr ? Helper::attrs($properties->attr) : '';
         }
 
-        $table_html = '<table id="'.$structure->id.'" class="'.implode(' ', $classes).'" '.$attrs.'>';
-        if ($structure->options['thead']) {
-            $table_html .= '<thead class="'.$structure->options['thead_class'].'">'.$cols.'</thead>';
+        $table_html = '<table id="'.$properties->id.'" class="'.implode(' ', $classes).'" '.$attrs.'>';
+        if ($properties->options['thead']) {
+            $table_html .= '<thead class="'.$properties->options['thead_class'].'">'.$cols.'</thead>';
             $table_html .= '<tbody>'.$rows.'</tbody>';
         } else {
             $table_html .= '<tbody>'.$cols.$rows.'</tbody>';

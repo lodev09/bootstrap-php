@@ -65,5 +65,5 @@ Properties follows the same workflow as the `cell` and `col` does so it's self e
 
 ### print it!
 ```php
-$table->print_html();
+$table->printHtml();
 ```

@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.4",
+        "lodev09/php-util": ">=1.2"
     },
     "autoload": {
         "psr-4": {

@@ -17,11 +17,7 @@ _If you want me to add your own component, feel free to contribute and submit a 
 
 ## Usage
 ```php
-// register the component(s) you want to use
-\Bootstrap\Component::register('table', 'Bootstrap\Components\Table');
-
-// create the comonent ui instance (this can be used globally)
-$ui = new \Bootstrap\Component();
+use \Bootstrap\Components\Table;
 
 // somewhere in your project.
 // sample data from your db
@@ -30,7 +26,7 @@ $data = [
     ['name' => 'foo', 'email' => 'bar@email.com']
 ];
 
-$table = $ui->create_table($data);
+$table = new Table($data);
 $table->cell = [
     'name' => [
         'class' => 'text-primary',
@@ -45,7 +41,7 @@ $table->cell = [
 ];
 
 // print the html
-$table->print_html();
+$table->printHtml();
 ```
 
 ## Feedback
