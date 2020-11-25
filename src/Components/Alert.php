@@ -36,7 +36,7 @@ class Alert extends Component {
         if ($dismissible) $classes[] = 'alert-dismissible fade show';
 
         $result = '
-        	<div class="alert alert-'.$type.' '.$classes.'">
+        	<div class="alert alert-'.$type.' '.implode(' ', $classes).'">
 				'.($dismissible ? '<button type="button" class="close" data-dismiss="alert">×</button>' : '').'
 				'.$content.'
 			</div>';
