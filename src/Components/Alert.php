@@ -4,7 +4,7 @@ namespace Bootstrap\Components;
 use \Bootstrap\Helper;
 use \Common\Util;
 
-class Alert extends \Bootstrap\Component {
+class Alert extends Component {
 	private $_options_map = [
         'dismissible' => true
     ];
