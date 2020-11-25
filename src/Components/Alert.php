@@ -23,28 +23,9 @@ class Alert extends \Bootstrap\Component {
     public function printHtml($return = false) {
     	$properties = $this->_properties;
 
-    	$type = Helper::getValue($properties->type, array(
-            'if_closure' => function($type) { return Helper::runCallback($type, array($this)); },
-            'if_array' => function($type) {
-                parent::err('Bootstrap::Alert::type requires string.');
-                return '';
-            }
-        ));
-
-        $content = Helper::getValue($properties->content, array(
-            'if_closure' => function($content) { return Helper::runCallback($content, array($this)); },
-            'if_array' => function($content) {
-                parent::err('Bootstrap::Alert::content requires string.');
-                return '';
-            }
-        ));
-
-        $class = Helper::getValue($properties->class, array(
-            'if_closure' => function($class) { return Helper::runCallback($class, array($this)); },
-            'if_array' => function($class) {
-                return implode(' ', $class);
-            }
-        ));
+        $type = $this->getPropValue($properties->type);
+        $content = $this->getPropValue($properties->content);
+        $class = $this->getPropValue($properties->class);
 
         $classes = array();
 

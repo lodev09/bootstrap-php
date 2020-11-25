@@ -34,48 +34,10 @@ class Input extends Component {
 
     public function printHtml($return = false) {
     	$properties = $this->_properties;
-
-        $value = Helper::getValue($properties->value, array(
-            'if_closure' => function($value) { return Helper::runCallback($value, array($this)); },
-            'if_array' => function($value) {
-                throw new \Exception('Bootstrap::Input::value requires string.');
-            }
-        ));
-
-        $label = Helper::getValue($properties->label, array(
-            'if_closure' => function($label) { return Helper::runCallback($label, array($this)); },
-            'if_array' => function($label) {
-                throw new \Exception('Bootstrap::Input::value requires string.');
-            }
-        ));
-
-    	$attr = Helper::getValue($properties->attr, array(
-            'if_closure' => function($attr) {
-                $callback_return = Helper::runCallback($attr, $array($this));
-                if (is_array($callback_return)) return $callback_return;
-                else return array($callback_return);
-            },
-            'if_array' => function($attr) {
-                $attrs = array();
-                foreach ($attr as $key => $value) {
-                    if (is_int($key)) $attrs[] = $value;
-                    else if (is_bool($value)) $attrs[] = $key;
-                    else $attrs[] = $key.'="'.$value.'"';
-                }
-
-                return $attrs;
-            },
-            'if_other' => function($attr) {
-                return array($attr);
-            }
-        ));
-
-        $class = Helper::getValue($properties->class, array(
-            'if_closure' => function($class) { return Helper::runCallback($class, array($this)); },
-            'if_array' => function($class) {
-                return implode(' ', $class);
-            }
-        ));
+        $value = $this->getPropValue($properties->value);
+        $label = $this->getPropValue($properties->label);
+    	$attr = $this->getPropValueAttr($properties->attr);
+        $class = $this->getPropValue($properties->class);
 
         $classes = array();
 

@@ -87,7 +87,7 @@ class Table extends Component {
         $properties = $this->_properties;
         $col_names = array_keys($properties->col);
 
-        $rows = Helper::getValue($properties->data, array(
+        $rows = $this->getPropValue($properties->data, array(
             'if_array' => function($data) use ($properties, $col_names) {
                 $html_rows = [];
 

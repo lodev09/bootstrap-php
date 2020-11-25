@@ -74,6 +74,38 @@ class Component {
         throw new \Exception('Undefined property: '.$name);
     }
 
+    protected function getPropValue($prop, $methods = null) {
+        if (!$methods) {
+            $methods = [
+                'if_closure' => function($prop) {
+                    return Helper::runCallback($prop, [$this]);
+                },
+                'if_array' => function($prop) {
+                    throw new \Exception(get_called_class().':property requires string');
+                }
+            ];
+        }
+
+        return Helper::getValue($prop, $methods);
+    }
+
+    protected function getPropValueAttr($prop, $data = null) {
+        return Helper::getValue($prop, [
+            'if_closure' => function($attr) {
+                $callback_return = Helper::runCallback($attr, [$this]);
+                if (is_array($callback_return)) return $callback_return;
+                else return [$callback_return];
+            },
+            'if_array' => function($attr) use ($data) {
+                $attrs = Helper::attrs($attr, $data);
+                return [$attrs];
+            },
+            'if_other' => function($attr) {
+                return [$attr];
+            }
+        ]);
+    }
+
     public static function printSelect($items, $options = [], $return = false) {
         $items_html = '';
         $main_attrs = [];

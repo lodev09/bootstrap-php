@@ -37,62 +37,12 @@ class Button extends Component {
         $that = $this;
         $properties = $this->_properties;
 
-        $icon = Helper::getValue($properties->icon, array(
-            'if_closure' => function($icon) use ($that) { return Helper::runCallback($icon, array($that)); },
-            'if_array' => function($icon) {
-                parent::err('Bootstrap::Button::icon requires string.');
-                return '';
-            }
-        ));
-
-        $container = Helper::getValue($properties->container, array(
-            'if_closure' => function($container) use ($that) { return Helper::runCallback($container, array($that)); },
-            'if_array' => function($container) {
-                parent::err('Bootstrap::Button::container requires string.');
-                return '';
-            }
-        ));
-
-        $content = Helper::getValue($properties->content, array(
-            'if_closure' => function($content) use ($that) { return Helper::runCallback($content, array($that)); },
-            'if_array' => function($content) {
-                parent::err('Bootstrap::Button::content requires string.');
-                return '';
-            }
-        ));
-
-        $attr = Helper::getValue($properties->attr, array(
-            'if_closure' => function($attr) use ($that) {
-                $callback_return = Helper::runCallback($attr, $array($that));
-                if (is_array($callback_return)) return $callback_return;
-                else return array($callback_return);
-            },
-            'if_array' => function($attr) {
-                $attrs = array();
-                foreach ($attr as $key => $value) {
-                    $attrs[] = $key.'="'.$value.'"';
-                }
-
-                return $attrs;
-            },
-            'if_other' => function($attr) {
-                return array($attr);
-            }
-        ));
-
-        $class = Helper::getValue($properties->class, array(
-            'if_closure' => function($class) use ($that) { return Helper::runCallback($class, array($that)); },
-            'if_array' => function($class) {
-                return implode(' ', $class);
-            }
-        ));
-
-        $type = Helper::getValue($properties->type, array(
-            'if_array' => function($class) {
-                parent::err('Bootstrap::Button:type requires string.');
-                return self::BUTTON_TYPE_DEFAULT;
-            }
-        ));
+        $icon = $this->getPropValue($properties->icon);
+        $container = $this->getPropValue($properties->container);
+        $content = $this->getPropValue($properties->content);
+        $attr = $this->getPropValueAttr($properties->attr);
+        $class = $this->getPropValue($properties->class);
+        $type = $this->getPropValue($properties->type);
 
         $classes = array();
 
