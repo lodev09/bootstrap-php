@@ -3,7 +3,6 @@
 
 ## Usage
 ```php
-$ui = new \Bootstrap\Component();
 
 // somewhere in your project.
 // sample data from your db
@@ -12,7 +11,7 @@ $data = [
     ['name' => 'foo', 'email' => 'bar@email.com']
 ];
 
-$table = $ui->create_table($data);
+$table = new \Bootstrap\Components\Table($data);
 ```
 
 ### Cell
