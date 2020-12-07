@@ -23,7 +23,7 @@ class Table extends Component {
         'responsive' => false,
         'bordered' => true,
         'hover' => false,
-        'default_col' => 'No Data',
+        'placeholder' => 'No data available',
         'thead' => true
     );
 
@@ -40,8 +40,9 @@ class Table extends Component {
         $id = Util::token();
         $this->_uid = $id;
 
+        $options = Util::setValues($this->_options_map, $options);
         if (!$data) {
-            $this->_col_list = $options['default_col'] ? array($options['default_col']) : [];
+            $this->_col_list = $options['placeholder'] ? array($options['placeholder']) : [];
         } else {
             $this->_col_list = array_keys(is_object($data[0]) ? get_object_vars($data[0]) : $data[0]);
         }
@@ -57,7 +58,7 @@ class Table extends Component {
         parent::__construct([
             'cell' => $cells,
             'col' => $cols,
-            'options' => Util::setValues($this->_options_map, $options),
+            'options' => $options,
             'data' => $data,
             'each' => [],
             'id' => $id,
