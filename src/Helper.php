@@ -79,9 +79,9 @@ class Helper {
             $col_replace = [];
             $col_search = [];
             foreach($matched_cols[1] as $matched_col) {
-                if (is_array($row)) $row = Util::toObject($row);
-                if (isset($row->{$matched_col})) {
-                    $col_replace[] = $url_encode ? urlencode($row->{$matched_col}) : $row->{$matched_col};
+                if (!is_array($row)) $row = Util::toArray($row);
+                if (isset($row[$matched_col])) {
+                    $col_replace[] = $url_encode ? urlencode($row[$matched_col]) : $row[$matched_col];
                     $col_search[] = "/{{".$matched_col."}}/";
                 }
             }
