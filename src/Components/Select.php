@@ -78,12 +78,9 @@ class Select extends Component {
                     $value = '';
                     if (is_string($row)) {
                         $content = $row;
-                    } else if (is_array($row)) {
-                        $content = isset($row[$display_field]) ? $row[$display_field] : '';
-                        $value = isset($row[$value_field]) ? $row[$value_field] : '';
-                    } else if (is_object($row)) {
-                        $content = isset($row->{$display_field}) ? $row->{$display_field} : '';
-                        $value = isset($row->{$value_field}) ? $row->{$value_field} : '';
+                    } else {
+                        $content = Helper::parseValue($display_field, $row);
+                        $value = Helper::parseValue($value_field, $row);
                     }
 
                     $default_props = [
