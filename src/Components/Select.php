@@ -79,11 +79,9 @@ class Select extends Component {
                     if (is_string($row)) {
                         $content = $row;
                     } else {
-                        $row = Util::toArray($row);
-
                         // direct from row field or parsed value
-                        $content = isset($row[$display_field]) ? $row[$display_field] : Helper::parseValue($display_field, $row);
-                        $value = isset($row[$value_field]) ? $row[$value_field] : Helper::parseValue($value_field, $row);
+                        $content = get($display_field, $row) ?: Helper::parseValue($display_field, $row);
+                        $value = get($value_field, $row) ?: Helper::parseValue($value_field, $row);
                     }
 
                     $default_props = [
