@@ -81,7 +81,7 @@ class Select extends Component {
                     } else {
                         // direct from row field or parsed value
                         $content = get($display_field, $row) ?: Helper::parseValue($display_field, $row);
-                        $value = get($value_field, $row) ?: Helper::parseValue($value_field, $row);
+                        $value = preg_match('/{.+}/', $value_field) ? Helper::parseValue($value_field, $row) : get($value_field, $row);
                     }
 
                     $default_props = [
