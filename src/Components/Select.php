@@ -80,7 +80,7 @@ class Select extends Component {
                         $content = $row;
                     } else {
                         // direct from row field or parsed value
-                        $content = get($display_field, $row) ?: Helper::parseValue($display_field, $row);
+                        $content = preg_match('/{.+}/', $display_field) ? Helper::parseValue($display_field, $row) : get($display_field, $row);
                         $value = preg_match('/{.+}/', $value_field) ? Helper::parseValue($value_field, $row) : get($value_field, $row);
                     }
 
