@@ -34,7 +34,7 @@ $select = new \Bootstrap\Components\Select($data, 'demo', 'id');
 Example:
 ```php
 // during init
-$select = new \Bootstrap\Components\Select($data, 'demo', 'id', ['disabled' => true]);
+$select = new \Bootstrap\Components\Select($data, 'demo', 'id', ['required' => true]);
 
 // after init
 $select->options('disabled', true);

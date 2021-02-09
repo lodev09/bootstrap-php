@@ -27,8 +27,7 @@ class Button extends Component {
             'size' => self::BUTTON_SIZE_MEDIUM,
             'attr' => [],
             'id' => '',
-            'class' => '',
-            'dropdown' => []
+            'class' => ''
         ]);
     }
 
