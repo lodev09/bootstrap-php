@@ -63,7 +63,7 @@ class Select extends Component {
 
         $class_htm = $classes ? ' '.implode(' ', $classes) : '';
 
-        $id = $properties->id ?: 'select-'.str_replace('_', '-', $properties->name);
+        $id = $properties->id ?: 'select-'.str_replace('_', '-', $properties->name).'-'.Util::token();
         $attr[] = 'id="'.$id.'"';
 
         if ($properties->placeholder) $attr[] = 'placeholder="'.$properties->placeholder.'"';
