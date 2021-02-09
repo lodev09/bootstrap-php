@@ -7,7 +7,7 @@ A component that enables you to easily write `<button>` control through PHP.
 Instantiate the `Button` by passing a `content`.
 
 ```php
-$button = new \Bootstrap\Components\Button($content);
+$button = new \Bootstrap\Components\Button('Touch Me!');
 
 // continued below...
 ```
@@ -23,7 +23,7 @@ $button = new \Bootstrap\Components\Button($content);
 Example:
 ```php
 // during init
-$button = new \Bootstrap\Components\Button($content, ['disabled' => true]);
+$button = new \Bootstrap\Components\Button('Touch Me!', ['disabled' => false]);
 
 // after init
 $button->options('disabled', true);

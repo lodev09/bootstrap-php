@@ -7,7 +7,8 @@ A component that enables you to easily write `<input>` control through PHP.
 Instantiate the `Input` by passing a `name`.
 
 ```php
-$input = new \Bootstrap\Components\Input($name);
+$input = new \Bootstrap\Components\Input('email');
+$input->type('email');
 
 // continued below...
 ```

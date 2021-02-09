@@ -15,7 +15,8 @@ $data = [
     ['id' => 3, 'name' => 'bar', 'email' => 'foo@email.com']
 ];
 
-$select = new \Bootstrap\Components\Select($data, 'demo', 'id');
+$select = new \Bootstrap\Components\Select($data, 'select_user', 'id', 'name');
+$select->selected(1);
 
 // continued below...
 ```
