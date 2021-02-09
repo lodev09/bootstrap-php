@@ -10,11 +10,11 @@ $ composer require lodev09/bootstrap-php
 
 ## Built-in Components
 The library has built-in components that are already available for you to use. See [creating custom components](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom.md) to learn more on how to create your own component.
-- [Table](src/Components/Table.php) - Print tables from datasource
-- [Button](src/Components/Button.php) - Print simple buttons
-- [Select](src/Components/Select.php) - Print select from datasource
-- [Alert](src/Components/Alert.php) - Print alert
-- [Input](src/Components/Input.php) - Print input (text, password, etc)
+- [Table](docs/table.md) - Print tables from datasource
+- [Button](docs/button.md) - Print simple buttons
+- [Select](docs/select.md) - Print select from datasource
+- [Alert](docs/alert.md) - Print alert
+- [Input](docs/input.md) - Print input (text, password, etc)
 
 _If you want me to add your own component, feel free to contribute and submit a PR!_
 
