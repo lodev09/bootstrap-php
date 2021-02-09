@@ -23,7 +23,7 @@ $button = new \Bootstrap\Components\Button('Touch Me!');
 Example:
 ```php
 // during init
-$button = new \Bootstrap\Components\Button('Touch Me!', ['disabled' => false]);
+$button = new \Bootstrap\Components\Button('Touch Me!', ['disabled' => true]);
 
 // after init
 $button->options('disabled', true);

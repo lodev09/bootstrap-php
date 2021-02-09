@@ -23,10 +23,10 @@ $alert = new \Bootstrap\Components\Alert('Your transaction completed successfull
 Example:
 ```php
 // during init
-$alert = new \Bootstrap\Components\Alert('Your transaction completed successfully', 'success');
+$alert = new \Bootstrap\Components\Alert('Your transaction completed successfully', 'success', ['dismissible' => false]);
 
 // after init
-$alert->options('disabled', true);
+$alert->options('dismissible', false);
 ```
 
 ### Other properties

@@ -27,7 +27,7 @@ $input->type('email');
 Example:
 ```php
 // during init
-$input = new \Bootstrap\Components\Input($name, ['required' => true]);
+$input = new \Bootstrap\Components\Input($name, ['disabled' => true]);
 
 // after init
 $input->options('disabled', true);
