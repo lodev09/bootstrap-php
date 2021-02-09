@@ -8,6 +8,7 @@ Instantiate the `Input` by passing a `name`.
 
 ```php
 $input = new \Bootstrap\Components\Input('email');
+$input->label('Email');
 $input->type('email');
 
 // continued below...

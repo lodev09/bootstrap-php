@@ -16,6 +16,7 @@ $data = [
 ];
 
 $select = new \Bootstrap\Components\Select($data, 'select_user', 'id', 'name');
+$select->label('Select User');
 $select->selected(1);
 
 // continued below...
