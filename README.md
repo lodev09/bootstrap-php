@@ -9,7 +9,7 @@ $ composer require lodev09/bootstrap-php
 ```
 
 ## Built-in Components
-The library has built-in components that are already available for you to use. See [creating custom components](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom_components.md) to learn more on how to create your own component.
+The library has built-in components that are already available for you to use. See [creating custom components](https://github.com/lodev09/bootstrap-php/tree/master/docs/custom.md) to learn more on how to create your own component.
 - [Table](src/Components/Table.php) - Print tables from datasource
 - [Button](src/Components/Button.php) - Print simple buttons
 - [Select](src/Components/Select.php) - Print select from datasource
