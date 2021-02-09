@@ -23,7 +23,7 @@ $button = new \Bootstrap\Components\Button($content);
 Example:
 ```php
 // during init
-$button = new \Bootstrap\Components\Button($data, 'demo', 'id', ['disabled' => true]);
+$button = new \Bootstrap\Components\Button($content, ['disabled' => true]);
 
 // after init
 $button->options('disabled', true);
