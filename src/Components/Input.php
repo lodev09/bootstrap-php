@@ -17,12 +17,13 @@ class Input extends Component {
 
     // optional
     public function __construct($name, $options = []) {
+        $id = 'input-'.Util::slugify($name).'-'.Util::token();
         parent::__construct([
             'name' => $name,
             'options' => Util::setValues($this->_options_map, $options),
             'type' => self::INPUT_TYPE_TEXT,
             'value' => '',
-            'id' => '',
+            'id' => $id,
             'class' => '',
             'attr' => [],
             'label' => '',
@@ -49,9 +50,7 @@ class Input extends Component {
         $classes[] = $disabled;
 
         $class_htm = $classes ? ' '.implode(' ', $classes) : '';
-
-        $id = $properties->id ?: 'input-'.str_replace('_', '-', $properties->name).'-'.Util::token();
-        $attr[] = 'id="'.$id.'"';
+        $attr[] = 'id="'.$properties->id.'"';
 
         if ($properties->placeholder) $attr[] = 'placeholder="'.$properties->placeholder.'"';
 
@@ -66,7 +65,7 @@ class Input extends Component {
 
         if ($properties->label) {
             $result = '
-                <label class="form-label" for="'.$id.'">'.$properties->label.'</label>
+                <label class="form-label" for="'.$properties->id.'">'.$properties->label.'</label>
                 '.$result;
         }
 

@@ -17,13 +17,14 @@ class Select extends Component {
 
     // optional
     public function __construct($data, $name, $value_field, $display_field = null, $options = []) {
+        $id = 'select-'.Util::slugify($name).'-'.Util::token();
         parent::__construct([
             'data' => $data,
             'name' => $name,
             'options' => Util::setValues($this->_options_map, $options),
             'value' => $value_field,
             'display' => $display_field ?: $value_field,
-            'id' => '',
+            'id' => $id,
             'class' => '',
             'attr' => [],
             'label' => '',
@@ -62,9 +63,7 @@ class Select extends Component {
         $classes[] = $disabled;
 
         $class_htm = $classes ? ' '.implode(' ', $classes) : '';
-
-        $id = $properties->id ?: 'select-'.str_replace('_', '-', $properties->name).'-'.Util::token();
-        $attr[] = 'id="'.$id.'"';
+        $attr[] = 'id="'.$properties->id.'"';
 
         if ($properties->placeholder) $attr[] = 'placeholder="'.$properties->placeholder.'"';
 
@@ -160,7 +159,7 @@ class Select extends Component {
 
         if ($properties->label) {
             $result = '
-                <label class="form-label" for="'.$id.'">'.$properties->label.'</label>
+                <label class="form-label" for="'.$properties->id.'">'.$properties->label.'</label>
                 '.$result;
         }
 
