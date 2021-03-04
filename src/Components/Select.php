@@ -12,7 +12,8 @@ class Select extends Component {
         'disabled' => false,
         'grouped' => true,
         'group_class' => '',
-        'required' => false
+        'required' => false,
+        'default_disabled' => true
     ];
 
     // optional
@@ -60,6 +61,7 @@ class Select extends Component {
 
         // disabled
         $disabled = $properties->options['disabled'] ? 'disabled' : '';
+        $default_disabled = $properties->options['default_disabled'] ? 'disabled' : '';
         $classes[] = $disabled;
 
         $class_htm = $classes ? ' '.implode(' ', $classes) : '';
@@ -144,7 +146,12 @@ class Select extends Component {
 
         $default_option_html = '';
         if ($default) {
-            $default_option_html = '<option value="" disabled '.(!$has_selected ? 'selected' : '').'>'.$default.'</option>';
+            $default_option_html = '
+                <option value=""
+                    '.$default_disabled.'
+                    '.($has_selected ? '' : 'selected').'>'.$default.'
+                </option>
+            ';
         }
 
         $result = '<select
