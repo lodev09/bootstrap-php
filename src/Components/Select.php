@@ -12,6 +12,7 @@ class Select extends Component {
         'disabled' => false,
         'grouped' => true,
         'group_class' => '',
+        'label_class' => 'd-flex',
         'required' => false,
         'default_disabled' => true
     ];
@@ -166,7 +167,9 @@ class Select extends Component {
 
         if ($properties->label) {
             $result = '
-                <label class="form-label" for="'.$properties->id.'">'.$properties->label.'</label>
+                <label class="form-label '.$properties->options['label_class'].'" for="'.$properties->id.'">
+                    '.$properties->label.'
+                </label>
                 '.$result;
         }
 

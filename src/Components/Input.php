@@ -12,6 +12,7 @@ class Input extends Component {
         'disabled' => false,
         'grouped' => true,
         'group_class' => '',
+        'label_class' => 'd-flex',
         'required' => false
     ];
 
@@ -65,7 +66,9 @@ class Input extends Component {
 
         if ($properties->label) {
             $result = '
-                <label class="form-label" for="'.$properties->id.'">'.$properties->label.'</label>
+                <label class="form-label '.$properties->options['label_class'].'" for="'.$properties->id.'">
+                    '.$properties->label.'
+                </label>
                 '.$result;
         }
 
